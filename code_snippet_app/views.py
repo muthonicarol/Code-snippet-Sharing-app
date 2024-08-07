@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate,logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, SnippetForm
+from .forms import UserRegistrationForm, SnippetForm, LoginForm
 from .models import Snippet
 
 
@@ -24,22 +24,26 @@ def register(request): #this one is handling the registration process
             return redirect('snippet_list')
     else:
         form = UserRegistrationForm()
-    return render(request, 'template/register.html', {'form': form})  
+    return render(request, 'register.html', {'form': form})  
   
 
-def login_view(request): #this one is handling the user login process
+
+
+def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('snippet_list')
+                return redirect('home')
+            else:
+                form.add_error(None, 'Invalid username or password')
     else:
-        form = AuthenticationForm()
-    return render(request, 'template/login.html', {'form': form})
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 def logout_view(request):# This function handles logging out the user    
@@ -50,15 +54,16 @@ def logout_view(request):# This function handles logging out the user
 def snippets_list(request):
     query = request.GET.get('q','')
     if query: 
-       snippets = snippet.object.filter(language_icontains = query) #search
+       snippets = Snippet.objects.filter(language__icontains = query) #search
     else :
-       snippets = Snippet.object.all()
-    return render (request, 'templates/snippets.html',{'snippets':snippets})
+       snippets = Snippet.objects.all()
+    return render (request, 'snippets.html',{'snippets':snippets, 'query': query})
 
 @login_required
-def snippets_detail(request, pk):
-    snippet = snippet.objects.get(pk.pk)
-    return render (request,'templates/snippets_detail.html',{'snippet':snippet}) 
+def snippet_detail(request, pk):
+    snippet = get_object_or_404(Snippet, pk=pk)
+    return render(request, 'snippet_detail.html', {'snippet': snippet})
+
 
 
 @login_required
@@ -69,11 +74,11 @@ def snippet_create(request):  # Creating a snippet
             snippet = form.save(commit=False)  # Create a Snippet object but don't save it yet
             snippet.user = request.user  # Associate the snippet with the current user
             snippet.save()  # Save the snippet to the database
-            return redirect('snippet_list')  # Redirect to the list of snippets after saving
+            return redirect('snippets_list')  # Redirect to the list of snippets after saving
     else:
         form = SnippetForm()  # Create an empty form for GET requests
 
-    return render(request, 'templates/snippet_form.html', {'form': form})
+    return render(request, 'snippet_create.html', {'form': form})
 
 
 

@@ -14,4 +14,16 @@ class UserRegistrationForm (UserCreationForm):
 class SnippetForm(forms.ModelForm):
     class Meta:
         model = Snippet
-        fields = ['language', 'description', 'code']        
+        fields = ['language', 'description', 'code']  
+
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', 'placeholder': 'Enter your username'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', 'placeholder': 'Enter your password'})
+    )
+           

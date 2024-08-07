@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %} <!-- Load static files -->
+{% block title %}<title>Register</title>{% endblock title %}
+{% block content %}
+
+<div class="container mx-auto p-6" style="background-image: url('{% static 'background.gif' %}'); min-height: 100vh; background-size: cover; display: flex; align-items: center; justify-content: center;">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md w-full">
+        <h2 class="text-3xl font-bold text-blue-600 mb-6">Register</h2>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            
+            <!-- Username -->
+            <div class="mb-4">
+                <label for="id_username" class="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+                <input type="text" id="id_username" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your username" required>
+                {% if form.username.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.username.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="id_email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                <input type="email" id="id_email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your email" required>
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.email.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="mb-6">
+                <label for="id_password1" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                <input type="password" id="id_password1" name="password1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your password" required>
+                {% if form.password1.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.password1.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-6">
+                <label for="id_password2" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password:</label>
+                <input type="password" id="id_password2" name="password2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Confirm your password" required>
+                {% if form.password2.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.password2.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Register
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
