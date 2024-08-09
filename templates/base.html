@@ -7,20 +7,20 @@
   <title class="font-bold">  {% block title %} Code Snip{% endblock title %}</title>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-yellow-500 text-brown-900">
     <header class="bg-white shadow">
-        <div class="container mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold"> Code Snip</h1>
-            <nav class="mt-4">
+        <div class="container mx-auto px-4 py-6 ">
+            <h1 class="text-7xl font-bold text-center text-yellow-700"> Code Snip</h1>
+            <nav class="mt-4 bg-red-950 p-3 rounded-lg shadow-md">
                 <ul class="flex space-x-4">
-                    <li><a href="{% url 'home' %}" class="text-blue-500 hover:text-blue-700">Home</a></li>
+                    <li><a href="{% url 'home' %}" class="text-neutral-50 hover:text-blue-700">Home</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'snippets_list' %}" class="text-blue-500 hover:text-blue-700">Snippets</a></li>
-                        <li><a href="{% url 'snippet_create' %}" class="text-blue-500 hover:text-blue-700">Create Snippet</a></li>
-                        <li><a href="{% url 'logout_view' %}" class="text-blue-500 hover:text-blue-700">Logout</a></li>
+                        <li><a href="{% url 'snippets_list' %}" class="text-neutral-50 hover:text-blue-700">Snippets</a></li>
+                        <li><a href="{% url 'snippet_create' %}" class="text-neutral-50 hover:text-blue-700">Create Snippet</a></li>
+                        <li><a href="{% url 'logout_view' %}" class=" text-neutral-50 hover:text-blue-700">Logout</a></li>
                     {% else %}
-                        <li><a href="{% url 'login' %}" class="text-blue-500 hover:text-blue-700">Login</a></li>
-                        <li><a href="{% url 'register' %}" class="text-blue-500 hover:text-blue-700">Register</a></li>
+                        <li><a href="{% url 'login' %}" class="text-neutral-50 hover:text-blue-700">Login</a></li>
+                        <li><a href="{% url 'register' %}" class=" text-neutral-50 hover:text-blue-700">Register</a></li>
                     {% endif %}
                 </ul>
             </nav>
