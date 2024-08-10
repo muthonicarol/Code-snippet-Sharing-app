@@ -10,5 +10,6 @@ urlpatterns = [
     path('snippets/<int:pk>/', views.snippet_detail, name = 'snippet_detail'),
     path ('snippet_create/',views.snippet_create, name = 'snippet_create'),
     path('logout/', views.logout_view, name='logout_view'),
+    path('snippet/<int:pk>/delete/', views.snippet_delete, name='snippet_delete')
 
 ]

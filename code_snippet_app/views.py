@@ -21,7 +21,7 @@ def register(request): #this one is handling the registration process
             password = form.cleaned_data.get('password1')  
             user = authenticate(username=username, password=password) 
             login(request, user) 
-            return redirect('snippet_list')
+            return redirect('snippets_list')
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})  
@@ -79,6 +79,16 @@ def snippet_create(request):  # Creating a snippet
         form = SnippetForm()  # Create an empty form for GET requests
 
     return render(request, 'snippet_create.html', {'form': form})
+
+def snippet_delete(request, pk):
+    snippet = get_object_or_404(Snippet, pk=pk)     # Ensure that the user trying to delete the snippet is the one who created it   
+    if snippet.author == request.user:
+        snippet.delete()
+        messages.success(request, "Snippet deleted successfully.")
+        return redirect('snippets_list')
+    else:
+        messages.error(request, "You are not authorized to delete this snippet.")
+        return redirect('snippets_list')  
 
 
 
